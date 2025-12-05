@@ -102,19 +102,10 @@ You will need:
 ### 2. Clone repository and install dependencies
 
 ```bash
-git clone https://github.com/your-user/WorkLead.git
-cd WorkLead
+git clone https://github.com/your-user/automation-two-way-sync-james.git
+cd automation-two-way-sync-james
 
 pip install -r requirements.txt
-```
-
-Ensure `requirements.txt` includes (versions are examples):
-
-```text
-python-dotenv
-gspread
-google-auth
-py-trello
 ```
 
 ### 3. Google Sheets configuration
@@ -179,7 +170,7 @@ TRELLO_BOARD_ID=your_trello_board_id_here
 MAPPING_FILE=data/mapping.json
 ```
 
-Make sure `.env`, `credentials.json`, `data/`, and `logs/` are **gitignored**.
+Make sure `.env`, `credentials.json`, `data/`, `venv/`(if created), and `logs/` are **gitignored**.
 
 ---
 
