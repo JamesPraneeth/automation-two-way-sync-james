@@ -46,7 +46,7 @@ class WorkTrackerClient:
             logger.error(f"Failed to initialize WorkTrackerClient: {e}")
             raise
 
-    def get_all_cards(self) -> List[Dict]:
+    def get_all_cards(self) :
         # Return all cards from all lists as simple dicts
         try:
             all_cards = []
@@ -68,7 +68,7 @@ class WorkTrackerClient:
             logger.error(f"Error retrieving cards: {e}")
             raise
 
-    def get_card_by_id(self, card_id: str) -> Optional[Dict]:
+    def get_card_by_id(self, card_id):
         # Get a single card by card_id
         try:
             card = self.board.get_card(card_id)
@@ -92,7 +92,7 @@ class WorkTrackerClient:
             logger.error(f"Error retrieving card {card_id}: {e}")
             raise
 
-    def create_card(self, title: str, lead_id: str, description: str = "") -> str:
+    def create_card(self, title, lead_id, description):
         # Create a new card in the TODO list
         try:
             todo_list = self.lists.get("TODO")
@@ -108,7 +108,7 @@ class WorkTrackerClient:
             logger.error(f"Error creating card: {e}")
             raise
 
-    def update_card_status(self, card_id: str, new_status: str) -> bool:
+    def update_card_status(self, card_id, new_status):
         # Move card to appropriate list based on new_status
         try:
             card = self.board.get_card(card_id)
@@ -131,7 +131,7 @@ class WorkTrackerClient:
             logger.error(f"Error updating card {card_id}: {e}")
             raise
 
-    def archive_card(self, card_id: str) -> bool:
+    def archive_card(self, card_id):
         # Archive (close) a card instead of deleting
         try:
             card = self.board.get_card(card_id)
