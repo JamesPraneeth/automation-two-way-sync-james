@@ -7,12 +7,8 @@ from google.oauth2.service_account import Credentials
 logger = logging.getLogger(__name__)
 
 class LeadTrackerClient:
-    """Client for Google Sheets Lead Tracker
-    
-    Handles CRUD operations on the Lead sheet.
-    Includes error handling and logging.
-    """
-    
+    #Client for Google Sheets Lead Tracker
+
     SCOPES = [
         "https://www.googleapis.com/auth/spreadsheets",
         "https://www.googleapis.com/auth/drive",
@@ -22,7 +18,7 @@ class LeadTrackerClient:
     HEADERS = ["id", "name", "email", "status", "source", "trello_card_id"]
     
     def __init__(self):
-        """Initialize Google Sheets client with service account credentials"""
+        #Initialize Google Sheets client with service account credentials
         creds_path = os.getenv("GOOGLE_CREDENTIALS_PATH")
         
         if not creds_path or not os.path.exists(creds_path):
@@ -46,12 +42,8 @@ class LeadTrackerClient:
             logger.error(f"Failed to initialize LeadTrackerClient: {str(e)}")
             raise
     
-    def get_all_leads(self) -> List[Dict]:
-        """Fetch all leads from sheet.
-        
-        Returns:
-            List of dicts, one per row (excluding header)
-        """
+    def get_all_leads(self):
+        #Fetch all leads from sheet.
         try:
             records = self.sheet.get_all_records()
             logger.info(f"Retrieved {len(records)} leads from Google Sheets")
@@ -60,15 +52,8 @@ class LeadTrackerClient:
             logger.error(f"Google Sheets API error: {str(e)}")
             raise
     
-    def get_lead_by_id(self, lead_id: str) -> Optional[Dict]:
-        """Find a specific lead by ID.
-        
-        Args:
-            lead_id: The 'id' column value
-            
-        Returns:
-            Lead dict or None if not found
-        """
+    def get_lead_by_id(self, lead_id):
+        #Find a specific lead by ID.
         try:
             records = self.get_all_leads()
             for record in records:
@@ -82,15 +67,8 @@ class LeadTrackerClient:
             logger.error(f"Error retrieving lead {lead_id}: {str(e)}")
             raise
     
-    def create_lead(self, lead_data: Dict) -> str:
-        """Create a new lead in the sheet.
-        
-        Args:
-            lead_data: Dict with keys: name, email, status, source
-            
-        Returns:
-            The generated lead ID
-        """
+    def create_lead(self, lead_data):
+        #Create a new lead in the sheet.
         required_fields = ["name", "email", "status"]
         for field in required_fields:
             if field not in lead_data or not lead_data[field]:
@@ -117,16 +95,7 @@ class LeadTrackerClient:
             logger.error(f"Error creating lead: {str(e)}")
             raise
     
-    def update_lead(self, lead_id: str, updates: Dict) -> bool:
-        """Update an existing lead.
-        
-        Args:
-            lead_id: The lead's ID
-            updates: Dict with fields to update
-            
-        Returns:
-            True if successful, False if lead not found
-        """
+    def update_lead(self, lead_id, updates):
         try:
             records = self.get_all_leads()
             

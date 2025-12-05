@@ -8,12 +8,8 @@ from trello.exceptions import ResourceUnavailable
 logger = logging.getLogger(__name__)
 
 class WorkTrackerClient:
-    """Client for Trello Work Tracker
-    
-    Manages tasks (cards) in Trello lists.
-    Maps between lead statuses and Trello list positions.
-    """
-    
+    #Client for Trello Work Tracker
+    #Maps between lead statuses and Trello list positions.
     # Status mapping: Lead status -> Trello list
     STATUS_MAPPING = {
         "NEW": "TODO",
@@ -31,7 +27,7 @@ class WorkTrackerClient:
     }
     
     def __init__(self):
-        """Initialize Trello client"""
+        #Initialize Trello client
         try:
             api_key = os.getenv("TRELLO_API_KEY")
             token = os.getenv("TRELLO_TOKEN")
@@ -55,12 +51,8 @@ class WorkTrackerClient:
             logger.error(f"Failed to initialize WorkTrackerClient: {str(e)}")
             raise
     
-    def get_all_cards(self) -> List[Dict]:
-        """Fetch all cards from all lists.
-        
-        Returns:
-            List of card dicts with fields: id, title, status, lead_id
-        """
+    def get_all_cards(self):
+        #Fetch all cards from all lists.
         try:
             all_cards = []
             
@@ -85,8 +77,8 @@ class WorkTrackerClient:
             logger.error(f"Error retrieving cards: {str(e)}")
             raise
     
-    def get_card_by_id(self, card_id: str) -> Optional[Dict]:
-        """Retrieve a specific card by ID"""
+    def get_card_by_id(self, card_id):
+        #Retrieve a specific card by ID
         try:
             card = self.board.get_card(card_id)
             
@@ -114,17 +106,8 @@ class WorkTrackerClient:
             logger.error(f"Error retrieving card {card_id}: {str(e)}")
             raise
     
-    def create_card(self, title: str, lead_id: str, description: str = "") -> str:
-        """Create a new card in the TODO list.
-        
-        Args:
-            title: Card title
-            lead_id: Associated lead ID (stored in description)
-            description: Optional card description
-            
-        Returns:
-            The card ID
-        """
+    def create_card(self, title, lead_id, description):
+        # Create a new card in the TODO list.
         try:
             todo_list = self.lists.get("TODO")
             if not todo_list:
@@ -142,16 +125,9 @@ class WorkTrackerClient:
             logger.error(f"Error creating card: {str(e)}")
             raise
     
-    def update_card_status(self, card_id: str, new_status: str) -> bool:
-        """Move a card to a new list based on status.
+    def update_card_status(self, card_id, new_status):
+        # Move a card to a new list based on status.
         
-        Args:
-            card_id: Card ID
-            new_status: Status (NEW, CONTACTED, QUALIFIED, LOST)
-            
-        Returns:
-            True if successful
-        """
         try:
             card = self.board.get_card(card_id)
             target_list_name = self.STATUS_MAPPING.get(new_status)
@@ -178,11 +154,10 @@ class WorkTrackerClient:
             raise
     
     @staticmethod
-    def _extract_lead_id_from_description(desc: str) -> Optional[str]:
-        """Extract lead ID from card description.
+    def _extract_lead_id_from_description(desc):
+        # Extract lead ID from card description.
         
-        Expected format: "Lead ID: <id>" at the start of description
-        """
+        
         if not desc:
             return None
         
